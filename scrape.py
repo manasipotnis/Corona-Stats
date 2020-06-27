@@ -9,14 +9,11 @@ import schedule
 import time
 from spreadsheet import *
 
-
-# lastRow = 55 #couldn't figure out a way to find last row of a specific column hence predefining it here and it'll incremenet each time
-
 def scrape():
 
     url = 'https://www.mohfw.gov.in/'
     response = requests.get(url)
-    # print(response)
+
     soup = BeautifulSoup(response.text, 'html.parser')
 
     dbody = soup('div', {"class": "site-stats-count"})[0].find_all('li')
@@ -42,14 +39,11 @@ def scrape():
 
     gsheet_store(activeCases, recoveries, deaths)
 
-    
-    
 
-    
-schedule.every(5).seconds.do(scrape)
-#schedule.every().day.at("17:04").do(scrape)
-    
 
+#schedule.every(5).seconds.do(scrape)
+schedule.every().day.at("03:30").do(scrape) #9:00 am IST is 3:30 am UTC
+    
 while True:
     schedule.run_pending()
     time.sleep(1)
